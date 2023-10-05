@@ -5,11 +5,16 @@ tcib_actions:
 - run: baremetal complete | tee /etc/bash_completion.d/baremetal.bash_completion > /dev/null
 # ensure "oc rsh" uses bash by default
 - run: rm /bin/sh && ln -s /bin/bash /bin/sh
+- run: git clone https://opendev.org/openstack/python-observabilityclient.git /tmp/observabilityclient
+- run: pushd /tmp/observabilityclient && python3 setup.py install --prefix /usr --force
+- run: git clone https://github.com/paramite/python-aodhclient.git /tmp/aodhclient && pushd /tmp/aodhclient && git checkout autoscaling-antelope
+- run: pushd /tmp/aodhclient && python3 setup.py install --prefix /usr --force
 tcib_packages:
   common:
   - ceph-common
   - python3-openstackclient
   - python3-osc-placement
+  - python3-aodhclient
   - python3-barbicanclient
   - python3-designateclient
   - python3-glanceclient

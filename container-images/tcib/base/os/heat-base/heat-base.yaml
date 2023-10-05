@@ -2,6 +2,10 @@ tcib_actions:
 - run: bash /usr/local/bin/uid_gid_manage heat
 - run: dnf -y install {{ tcib_packages['common'] | join(' ') }} && dnf clean all && rm -rf /var/cache/dnf
 - run: sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+- run: git config --global user.email "mmagr@redhat.com"
+- run: git config --global user.name "Martin Mágr"
+- run: git clone https://github.com/paramite/heat.git /tmp/heat && pushd /tmp/heat && git checkout autoscaling-antelope
+- run: pushd /tmp/heat && python3 setup.py install --prefix /usr --force
 tcib_packages:
   common:
   - httpd

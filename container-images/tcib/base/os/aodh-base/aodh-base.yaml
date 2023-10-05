@@ -1,6 +1,14 @@
 tcib_actions:
 - run: bash /usr/local/bin/uid_gid_manage aodh
 - run: dnf -y install {{ tcib_packages.common | join(' ') }} && dnf clean all && rm -rf /var/cache/dnf
+- run: git config --global user.email "mmagr@redhat.com"
+- run: git config --global user.name "Martin Mágr"
+- run: git clone https://github.com/paramite/aodh.git /tmp/aodh && pushd /tmp/aodh && git checkout autoscaling-antelope
+- run: pushd /tmp/aodh && python3 setup.py install --prefix /usr --force
+- run: git clone https://opendev.org/openstack/python-observabilityclient.git /tmp/observabilityclient
+- run: pushd /tmp/observabilityclient && python3 setup.py install --prefix /usr --force
+- run: git clone https://github.com/paramite/python-aodhclient.git /tmp/aodhclient && pushd /tmp/aodhclient && git checkout autoscaling-antelope
+- run: pushd /tmp/aodhclient && python3 setup.py install --prefix /usr --force
 tcib_packages:
   common:
   - openstack-aodh-common
